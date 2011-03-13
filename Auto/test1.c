@@ -6,7 +6,7 @@ typedef struct {
     int num_states;
     int num_symbols;
     char** states;
-    char** symbols;
+    char* symbols;
     int* transitions;
 } args_t;
 
