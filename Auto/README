@@ -1,0 +1,15 @@
+Compile com:
+
+gcc -o app main.c args.c make_with_jumps.c
+
+Execute com:
+
+./app test.auto auto.c
+
+Teste com:
+
+gcc -o auto auto.c
+./auto abc; echo $?
+
+
+Se o resultado for 0 está certo!
