@@ -9,6 +9,7 @@
 #define ARGS_H_
 
 #define MAX_BUFF 4096
+#define SAVE fprintf
 
 typedef struct {
     int num_states;
@@ -18,6 +19,7 @@ typedef struct {
     int* fstates;
     char* symbols;
     int* transitions;
+    int mode;
 } args_t;
 
 int get_args(char* filename, args_t* args);

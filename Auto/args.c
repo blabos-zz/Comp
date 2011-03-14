@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+int get_mode(FILE* fp, args_t* args);
 int get_states(FILE* fp, args_t* args);
 int get_symbols(FILE* fp, args_t* args);
 int get_transitions(FILE* fp, args_t* args);
@@ -28,7 +29,8 @@ int get_args(char* filename, args_t* args) {
     int ret = 0;
 
     if ((fp = fopen(filename, "r")) != NULL) {
-        ret =  get_states(fp, args)
+        ret =  get_mode(fp, args)
+            && get_states(fp, args)
             && get_symbols(fp, args)
             && get_transitions(fp, args);
         
@@ -106,6 +108,20 @@ int is_final_state(args_t* args, int state) {
 }
 
 
+int get_mode(FILE* fp, args_t* args) {
+    char line[MAX_BUFF];
+    
+    // Copia a linha com o modo para o buffer line, ignornando comentários
+    // ( # ) e linhas em branco
+    do {
+        if (fgets(line, MAX_BUFF, fp) == NULL) return 0;
+    } while (_skip_line(line));
+    line[strlen(line) - 1] = '\0';
+    
+    args->mode = atoi(line);
+    
+    return 1;
+}
 
 int get_states(FILE* fp, args_t* args) {
     char line[MAX_BUFF];
