@@ -1,5 +1,5 @@
 #
-# Matches ab*
+# Matches *ab*
 #
 #     > e0 -- a --> e1 -- b --> [e2]
 #   //     \     /     \\     /       \
