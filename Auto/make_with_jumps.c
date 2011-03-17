@@ -5,6 +5,7 @@
  *      Author: blabos
  */
 #include <stdio.h>
+#include <string.h>
 
 #include "make_with_jumps.h"
 
@@ -13,8 +14,12 @@ int make_with_jumps(args_t* args, char* outfile) {
     FILE* fp;
     int i, j, count, tr_idx;
     int status = 0;
+    char filename[MAX_BUFF];
     
-    if ((fp = fopen(outfile, "w")) != NULL) {
+    strncpy(filename, "jumps-", 6);
+    strncat(filename, outfile, MAX_BUFF - 6);
+    
+    if ((fp = fopen(filename, "w")) != NULL) {
         SAVE(fp, "int main(int argc, char** argv) {\n");
         SAVE(fp, "    int curr  = -1;\n");
         SAVE(fp, "    char* str = argv[1];\n\n");
