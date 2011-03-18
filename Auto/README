@@ -1,6 +1,6 @@
 Compile com:
 
-gcc -o app main.c args.c make_with_jumps.c
+gcc -o app main.c args.c make_with_jumps.c make_with_funcs.c
 
 Execute com:
 
