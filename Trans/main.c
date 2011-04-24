@@ -2,7 +2,7 @@
  * main.c
  *
  *  Created on: Apr 23, 2011
- *      Author: blabos
+ *      Author: blabos isto é um teste
  */
 
 #include <stdlib.h>
