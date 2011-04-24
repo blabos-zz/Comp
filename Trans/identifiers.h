@@ -10,6 +10,7 @@
 
 
 void print_id_table();
+void save_id_table(char* filename);
 int index_of_identifier(char* identifier);
 
 

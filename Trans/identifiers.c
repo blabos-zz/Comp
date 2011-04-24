@@ -27,6 +27,24 @@ void print_id_table() {
     }
 }
 
+void save_id_table(char* filename) {
+    int i;
+    char buffer[MAX_STR];
+    FILE* fp;
+    
+    scpy(buffer, filename, MAX_STR);
+    scat(buffer, ".ident", MAX_STR);
+    
+    if (fp = fopen(buffer,"w")) {
+        fprintf(fp, "Identifiers Table:\n\n");
+        for (i = 0; i < curr_ident; i++) {
+            fprintf(fp, "[%04d]:[%30s]\n", i, id_table[i]);
+        }
+        
+        fclose(fp);
+    }
+}
+
 int index_of_identifier(char* identifier) {
     int i;
     

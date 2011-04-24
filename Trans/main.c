@@ -19,6 +19,8 @@
 #define ERR_NO_OUTPUT   -3
 #define ERR_SYNTAX      -4
 
+void save_alnum_token(FILE* fh, char* token);
+
 int main(int argc, char** argv) {
     /**
      * while has input
@@ -30,7 +32,7 @@ int main(int argc, char** argv) {
     FILE* fpin;
     FILE* fpout;
 
-    char read_buffer[BUFF_SIZE];
+    char buffer[BUFF_SIZE];
     char token[BUFF_SIZE];
 
     int beg, idx;
@@ -42,12 +44,12 @@ int main(int argc, char** argv) {
         return ERR_USAGE;
     }
 
-    if ((fpin = fopen(argv[1], "r")) != NULL) {
+    if ((fpin = fopen(argv[1], "r")) == NULL) {
         fprintf(stderr, "Cannot open file '%s' for input\n", argv[1]);
         return ERR_NO_INPUT;
     }
 
-    if ((fpout = fopen(argv[2], "w")) != NULL) {
+    if ((fpout = fopen(argv[2], "w")) == NULL) {
         fprintf(stderr, "Cannot open file '%s' for output\n", argv[2]);
         return ERR_NO_OUTPUT;
     }
@@ -62,6 +64,7 @@ int main(int argc, char** argv) {
      */
     read_data: beg = idx = 0;
     if (fgets(buffer, BUFF_SIZE, fpin)) {
+        lower(buffer);
         goto begin;
     } else {
         goto end;
@@ -102,18 +105,18 @@ int main(int argc, char** argv) {
     if (is_alnum(curr_char)) {
         goto alpha;
     } else if (is_space(curr_char)) {
-        subs(token, buffer, beg, idx - beg);
+        subs(token, buffer, beg, idx - beg - 1);
         save_alnum_token(fpout, token);
 
         goto space;
     } else if (is_symbol(curr_char)) {
-        subs(token, buffer, beg, idx - beg);
+        subs(token, buffer, beg, idx - beg - 1);
         save_alnum_token(fpout, token);
         beg = idx - 1;
 
         goto symbol;
     } else if (is_null(curr_char)) {
-        subs(token, buffer, beg, idx - beg);
+        subs(token, buffer, beg, idx - beg - 1);
         save_alnum_token(fpout, token);
 
         goto read_data;
@@ -132,17 +135,17 @@ int main(int argc, char** argv) {
     if (is_number(curr_char)) {
         goto number;
     } else if (is_space(curr_char)) {
-        subs(token, buffer, beg, idx - beg);
+        subs(token, buffer, beg, idx - beg - 1);
         fprintf(fpout, "N(%s) ", token);
 
         goto space;
     } else if (is_symbol(curr_char)) {
-        subs(token, buffer, beg, idx - beg);
+        subs(token, buffer, beg, idx - beg - 1);
         fprintf(fpout, "N(%s) ", token);
 
         goto symbol;
     } else if (is_null(curr_char)) {
-        subs(token, buffer, beg, idx - beg);
+        subs(token, buffer, beg, idx - beg - 1);
         fprintf(fpout, "N(%s) ", token);
 
         goto read_data;
@@ -184,26 +187,26 @@ int main(int argc, char** argv) {
      */
     symbol: curr_char = buffer[idx++];
     if (is_alpha(curr_char)) {
-        subs(token, buffer, beg, idx - beg);
+        subs(token, buffer, beg, idx - beg - 1);
         fprintf(fpout, "%s ", token);
 
         beg = idx - 1;
         goto alpha;
     } else if (is_number(curr_char)) {
-        subs(token, buffer, beg, idx - beg);
+        subs(token, buffer, beg, idx - beg - 1);
         fprintf(fpout, "%s ", token);
 
         beg = idx - 1;
         goto number;
     } else if (is_space(curr_char)) {
-        subs(token, buffer, beg, idx - beg);
+        subs(token, buffer, beg, idx - beg - 1);
         fprintf(fpout, "%s ", token);
 
         goto space;
     } else if (is_symbol(curr_char)) {
         goto symbol;
     } else if (is_null(curr_char)) {
-        subs(token, buffer, beg, idx - beg);
+        subs(token, buffer, beg, idx - beg - 1);
         fprintf(fpout, "%s ", token);
 
         goto read_data;
@@ -216,6 +219,21 @@ int main(int argc, char** argv) {
     end: beg = idx = 0;
     fclose(fpin);
     fclose(fpout);
+    save_id_table(argv[2]);
 
     return EXIT_SUCCESS;
 }
+
+
+void save_alnum_token(FILE* fh, char* token) {
+    int index = index_of_word(token);
+    
+    if (index != -1) {
+        fprintf(fh, "PR(%d) ", index);
+    }
+    else {
+        index = index_of_identifier(token);
+        fprintf(fh, "VR(%d) ", index);
+    }
+}
+

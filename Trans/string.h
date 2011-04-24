@@ -17,5 +17,13 @@ void subs(char* sub, const char* orig, int from, int count);
 void erase(char* str, int pos, int count);
 void lower(char* str);
 
+int is_alpha(unsigned char c);
+int is_number(unsigned char c);
+int is_alnum(unsigned char c);
+int is_space(unsigned char c);
+int is_null(unsigned char c);
+int is_del(unsigned char c);
+int is_symbol(unsigned char c);
+
 
 #endif /* STRING_H_ */

@@ -101,7 +101,36 @@ void erase(char* str, int pos, int count) {
 
 void lower(char* str) {
     while (*str) {
-        if (*str >= 65 && *str <= 90) *str += 32;
+        if (*str >= 65 && *str <= 90)
+            *str += 32;
         str++;
     }
+}
+
+int is_alpha(unsigned char c) {
+    return ((c >= 65 && c <= 90) || (c >= 97 && c <= 122));
+}
+
+int is_number(unsigned char c) {
+    return (c >= 48 && c <= 57);
+}
+
+int is_alnum(unsigned char c) {
+    return (is_alpha(c) || is_number(c));
+}
+
+int is_space(unsigned char c) {
+    return (c >= 1 && c <= 32);
+}
+
+int is_null(unsigned char c) {
+    return (c == 0);
+}
+
+int is_del(unsigned char c) {
+    return (c == 127);
+}
+
+int is_symbol(unsigned char c) {
+    return !(is_alnum(c) || is_space(c) || is_null(c) || is_del(c));
 }
