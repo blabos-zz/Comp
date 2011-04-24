@@ -9,7 +9,7 @@
 #define RESERVED_WORDS_H_
 
 
-int index_of(char* word);
+int index_of_word(char* word);
 
 
 #endif /* RESERVED_WORDS_H_ */

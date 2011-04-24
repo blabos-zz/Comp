@@ -8,15 +8,15 @@
 #include "reserved_words.h"
 #include "string.h"
 
-#define TABLE_SIZE  7
+#define TABLE_SIZE  10
 #define WORD_LEN    10
 
-const char* table[TABLE_SIZE + 1] = { "else", "go", "if", "let",
-        "print", "then", "to", 0 };
+const char* table[TABLE_SIZE + 1] = { "else", "end", "go", "if", "let", "of",
+        "print", "read", "then", "to", 0 };
 
 int _find_rw(char* word, int from, int to);
 
-int index_of(char* word) {
+int index_of_word(char* word) {
     return _find_rw(word, 0, TABLE_SIZE);
 }
 

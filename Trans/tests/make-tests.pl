@@ -13,6 +13,7 @@ sub main {
 
     test_string();
     test_reserved_words();
+    test_identifiers();
 
     cleanup();
 
@@ -37,6 +38,17 @@ sub test_reserved_words {
     while (<1*.c>) {
         croak
           if system "gcc -Wall -o $_.bin $_ string.o reserved_words.o"
+          or system "./$_.bin";
+    }
+}
+
+sub test_identifiers {
+    my @compile = qw{ gcc -Wall -c ../identifiers.c -o identifiers.o };
+    croak if system @compile;
+
+    while (<2*.c>) {
+        croak
+          if system "gcc -Wall -o $_.bin $_ string.o identifiers.o"
           or system "./$_.bin";
     }
 }

@@ -1,5 +1,5 @@
 /*
- * 11-index_of.c
+ * 11-index_of_word.c
  *
  *  Created on: Apr 23, 2011
  *      Author: blabos
@@ -15,7 +15,7 @@ int main(int argc, char** argv) {
     printf("\nTesting void erase(char* str, int pos, int count);\n");
     
     printf("Finding 'else':                      ");
-    index = index_of("else");
+    index = index_of_word("else");
     if (index == 0) {
         printf("OK\n");
     }
@@ -26,18 +26,18 @@ int main(int argc, char** argv) {
     }
     
     printf("Finding 'to':                        ");
-    index = index_of("to");
-    if (index == 6) {
+    index = index_of_word("to");
+    if (index == 9) {
         printf("OK\n");
     }
     else {
         printf("FAIL\n");
-        printf("Expected %d, found %d\n", 6, index);
+        printf("Expected %d, found %d\n", 9, index);
         return -1;
     }
     
     printf("Finding 'bla':                       ");
-    index = index_of("bla");
+    index = index_of_word("bla");
     if (index == -1) {
         printf("OK\n");
     }
@@ -48,7 +48,7 @@ int main(int argc, char** argv) {
     }
     
     printf("Finding 'ELSE':                      ");
-    index = index_of("ELSE");
+    index = index_of_word("ELSE");
     if (index == -1) {
         printf("OK\n");
     }
