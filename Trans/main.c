@@ -2,7 +2,7 @@
  * main.c
  *
  *  Created on: Apr 23, 2011
- *      Author: blabos isto È um teste
+ *      Author: blabos
  */
 
 #include <stdlib.h>
@@ -58,7 +58,7 @@ int main(int argc, char** argv) {
     goto read_data;
 
     /**
-     * Leia a próxima linha do arquivo.
+     * Leia a pr√≥xima linha do arquivo.
      */
     read_data: beg = idx = 0;
     if (fgets(buffer, BUFF_SIZE, fpin)) {
@@ -92,11 +92,11 @@ int main(int argc, char** argv) {
     }
 
     /**
-     * Caractere corrente é alfabético (inicia variável ou palavra reservada)
-     * Os próximos caracteres válidos são:
-     *   a) letras, números (continue);
-     *   b) espaços, símbolos, null (grave o token alfanumérico;
-     * Qualquer outro é erro
+     * Caractere corrente √© alfab√©tico (inicia vari√°vel ou palavra reservada)
+     * Os pr√≥ximos caracteres v√°lidos s√£o:
+     *   a) letras, n√∫meros (continue);
+     *   b) espa√ßos, s√≠mbolos, null (grave o token alfanum√©rico;
+     * Qualquer outro √© erro
      */
     alpha: curr_char = buffer[idx++];
     if (is_alnum(curr_char)) {
@@ -122,11 +122,11 @@ int main(int argc, char** argv) {
     }
 
     /**
-     * Caracter corrente é um número
-     * Os próximos caracteres válidos são:
-     *   a) outros números (continue);
-     *   b) espaços, símbolos, null (grave o token numérico);
-     * Qualquer outro é erro;
+     * Caracter corrente √© um n√∫mero
+     * Os pr√≥ximos caracteres v√°lidos s√£o:
+     *   a) outros n√∫meros (continue);
+     *   b) espa√ßos, s√≠mbolos, null (grave o token num√©rico);
+     * Qualquer outro √© erro;
      */
     number: curr_char = buffer[idx++];
     if (is_number(curr_char)) {
@@ -151,8 +151,8 @@ int main(int argc, char** argv) {
     }
 
     /**
-     * Caracter corrente é um 'espaço' (\n, \t, " ")
-     * Ignore e vá para o próximo
+     * Caracter corrente √© um 'espa√ßo' (\n, \t, " ")
+     * Ignore e v√° para o pr√≥ximo
      */
     space: curr_char = buffer[idx++];
     if (is_alpha(curr_char)) {
@@ -176,11 +176,11 @@ int main(int argc, char** argv) {
     }
 
     /**
-     * Caracter corrente é um símbolo
-     * Os próximos caracteres válidos são:
-     *   a) outros símbolos (continue);
-     *   b) letras, números, espaços, null (grave o token diretamente);
-     * Qualquer outro é erro;
+     * Caracter corrente √© um s√≠mbolo
+     * Os pr√≥ximos caracteres v√°lidos s√£o:
+     *   a) outros s√≠mbolos (continue);
+     *   b) letras, n√∫meros, espa√ßos, null (grave o token diretamente);
+     * Qualquer outro √© erro;
      */
     symbol: curr_char = buffer[idx++];
     if (is_alpha(curr_char)) {
