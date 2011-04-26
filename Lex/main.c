@@ -82,6 +82,8 @@ int main(int argc, char** argv) {
         beg = idx - 1;
 
         goto number;
+    } else if (is_comment(curr_char)) {
+        goto comment;
     } else if (is_space(curr_char)) {
         goto space;
     } else if (is_symbol(curr_char)) {
@@ -104,6 +106,11 @@ int main(int argc, char** argv) {
     alpha: curr_char = buffer[idx++];
     if (is_alnum(curr_char)) {
         goto alpha;
+    } else if (is_comment(curr_char)) {
+        subs(token, buffer, beg, idx - beg - 1);
+        save_alnum_token(fpout, token);
+
+        goto comment;
     } else if (is_space(curr_char)) {
         subs(token, buffer, beg, idx - beg - 1);
         save_alnum_token(fpout, token);
@@ -139,6 +146,11 @@ int main(int argc, char** argv) {
         fprintf(fpout, "N(%s) ", token);
 
         goto space;
+    } else if (is_comment(curr_char)) {
+        subs(token, buffer, beg, idx - beg - 1);
+        fprintf(fpout, "N(%s) ", token);
+
+        goto comment;
     } else if (is_symbol(curr_char)) {
         subs(token, buffer, beg, idx - beg - 1);
         fprintf(fpout, "N(%s) ", token);
@@ -166,6 +178,8 @@ int main(int argc, char** argv) {
         beg = idx - 1;
 
         goto number;
+    } else if (is_comment(curr_char)) {
+        goto comment;
     } else if (is_space(curr_char)) {
         goto space;
     } else if (is_symbol(curr_char)) {
@@ -176,6 +190,19 @@ int main(int argc, char** argv) {
         goto read_data;
     } else {
         goto error;
+    }
+
+    /**
+     * Caracter corrente é um comentário (%)
+     * Ignore os caracteres até encontrar um fim de linha ou null
+     */
+    comment: curr_char = buffer[idx++];
+    if (is_new_line(curr_char)) {
+        goto space;
+    } else if (is_null(curr_char)) {
+        goto read_data;
+    } else {
+        goto comment;
     }
 
     /**
@@ -198,6 +225,11 @@ int main(int argc, char** argv) {
 
         beg = idx - 1;
         goto number;
+    } else if (is_comment(curr_char)) {
+        subs(token, buffer, beg, idx - beg - 1);
+        fprintf(fpout, "%s ", token);
+        
+        goto comment;
     } else if (is_space(curr_char)) {
         subs(token, buffer, beg, idx - beg - 1);
         fprintf(fpout, "%s ", token);
@@ -213,7 +245,7 @@ int main(int argc, char** argv) {
     } else {
         goto error;
     }
-    
+
     error: status = ERR_SYNTAX;
 
     end: beg = idx = 0;
@@ -224,14 +256,12 @@ int main(int argc, char** argv) {
     return EXIT_SUCCESS;
 }
 
-
 void save_alnum_token(FILE* fh, char* token) {
     int index = index_of_word(token);
-    
+
     if (index != -1) {
         fprintf(fh, "PR(%d) ", index);
-    }
-    else {
+    } else {
         index = index_of_identifier(token);
         fprintf(fh, "VR(%d) ", index);
     }

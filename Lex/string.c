@@ -131,6 +131,14 @@ int is_del(unsigned char c) {
     return (c == 127);
 }
 
+int is_comment(unsigned char c) {
+    return c == '%';
+}
+
+int is_new_line(unsigned char c) {
+    return c == '\n';
+}
+
 int is_symbol(unsigned char c) {
     return !(is_alnum(c) || is_space(c) || is_null(c) || is_del(c));
 }

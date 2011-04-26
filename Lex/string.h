@@ -8,7 +8,6 @@
 #ifndef _STRING_H
 #define _STRING_H_
 
-
 int slen(const char* str);
 int scmp(const char* first, const char* second, int max);
 void scpy(char* dst, const char* src, int max);
@@ -23,7 +22,8 @@ int is_alnum(unsigned char c);
 int is_space(unsigned char c);
 int is_null(unsigned char c);
 int is_del(unsigned char c);
+int is_comment(unsigned char c);
+int is_new_line(unsigned char c);
 int is_symbol(unsigned char c);
-
 
 #endif /* STRING_H_ */
