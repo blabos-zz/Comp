@@ -228,7 +228,7 @@ int main(int argc, char** argv) {
     } else if (is_comment(curr_char)) {
         subs(token, buffer, beg, idx - beg - 1);
         fprintf(fpout, "%s ", token);
-        
+
         goto comment;
     } else if (is_space(curr_char)) {
         subs(token, buffer, beg, idx - beg - 1);
@@ -252,6 +252,7 @@ int main(int argc, char** argv) {
     fclose(fpin);
     fclose(fpout);
     save_id_table(argv[2]);
+    save_words(argv[2]);
 
     return EXIT_SUCCESS;
 }

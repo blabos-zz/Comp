@@ -5,6 +5,8 @@
  *      Author: blabos
  */
 
+#include <stdio.h>
+
 #include "reserved_words.h"
 #include "string.h"
 
@@ -18,6 +20,24 @@ int _find_rw(char* word, int from, int to);
 
 int index_of_word(char* word) {
     return _find_rw(word, 0, TABLE_SIZE);
+}
+
+void save_words(char* filename) {
+    int i;
+    char buffer[MAX_STR];
+    FILE* fp;
+
+    scpy(buffer, filename, MAX_STR);
+    scat(buffer, ".words", MAX_STR);
+
+    if ((fp = fopen(buffer, "w"))) {
+        fprintf(fp, "Reserved Words Table:\n\n");
+        for (i = 0; i < TABLE_SIZE; i++) {
+            fprintf(fp, "[%04d]:[%30s]\n", i, table[i]);
+        }
+
+        fclose(fp);
+    }
 }
 
 int _find_rw(char* word, int from, int to) {

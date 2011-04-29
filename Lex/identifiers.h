@@ -8,10 +8,8 @@
 #ifndef IDENTIFIERS_H_
 #define IDENTIFIERS_H_
 
-
 void print_id_table();
 void save_id_table(char* filename);
 int index_of_identifier(char* identifier);
-
 
 #endif /* IDENTIFIERS_H_ */

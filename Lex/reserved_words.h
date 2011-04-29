@@ -8,8 +8,7 @@
 #ifndef RESERVED_WORDS_H_
 #define RESERVED_WORDS_H_
 
-
 int index_of_word(char* word);
-
+void save_words(char* filename);
 
 #endif /* RESERVED_WORDS_H_ */

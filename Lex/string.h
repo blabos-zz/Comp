@@ -8,6 +8,8 @@
 #ifndef _STRING_H
 #define _STRING_H_
 
+#define MAX_STR     256
+
 int slen(const char* str);
 int scmp(const char* first, const char* second, int max);
 void scpy(char* dst, const char* src, int max);
