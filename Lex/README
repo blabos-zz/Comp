@@ -1,0 +1,8 @@
+Compile com:
+
+gcc -Wall -o lex main.c string.c reserved_words.c identifiers.c
+
+Execute com:
+
+./lex input output
+
