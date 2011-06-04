@@ -6,6 +6,8 @@
  */
 
 #include "exp.h"
+#include "string.h"
+#include <stdio.h>
 
 static int __my_stack__[STACK_LEN];
 static int __my_stack_pointer__ = 0;
@@ -31,6 +33,8 @@ int eval(char* expr, int len) {
         goto number;
     } else if (is_operator(expr[pos])) {
         goto operator;
+    } else if (is_close_parentesis(expr[pos])) {
+        goto pop;
     } else if (is_null(expr[pos]) && stack_empty()) {
         goto end;
     } else {
@@ -48,30 +52,36 @@ int eval(char* expr, int len) {
         goto error;
     }
 
-    push: pos++;
-    if (is_space(expr[pos])) {
-        goto push;
-    } else if (!stack_push()) {
-        goto error;
-    } else if (is_number(expr[pos])) {
-        goto number;
-    } else if (is_open_parentesis(expr[pos])) {
-        goto push;
+    push:
+
+    if (stack_push()) {
+        ignore_spaces_pushing: pos++;
+        if (is_space(expr[pos])) {
+            goto ignore_spaces_pushing;
+        } else if (is_number(expr[pos])) {
+            goto number;
+        } else if (is_open_parentesis(expr[pos])) {
+            goto push;
+        } else {
+            goto error;
+        }
     } else {
         goto error;
     }
 
-    pop: pos++;
-    if (is_space(expr[pos])) {
-        goto pop;
-    } else if (!stack_pop()) {
-        goto error;
-    } else if (is_operator(expr[pos])) {
-        goto operator;
-    } else if (is_close_parenteis(expr[pos])) {
-        goto pop;
-    } else if (is_null(expr[pos]) && stack_empty()) {
-        goto end;
+    pop: if (stack_pop()) {
+        ignore_spaces_poping: pos++;
+        if (is_space(expr[pos])) {
+            goto ignore_spaces_poping;
+        } else if (is_operator(expr[pos])) {
+            goto operator;
+        } else if (is_close_parentesis(expr[pos])) {
+            goto pop;
+        } else if (is_null(expr[pos]) && stack_empty()) {
+            goto end;
+        } else {
+            goto error;
+        }
     } else {
         goto error;
     }
@@ -102,10 +112,9 @@ int stack_pop() {
         status = 1;
     }
 
-    return 0;
+    return status;
 }
 
 int stack_empty() {
-    return !!__my_stack_pointer__;
+    return __my_stack_pointer__ <= 0;
 }
-

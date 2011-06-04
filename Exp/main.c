@@ -5,7 +5,16 @@
  *      Author: blabos
  */
 #include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+
+#include "exp.h"
 
 int main(int argc, char** argv) {
-    return EXIT_SUCCESS;
+    if (argc != 2) {
+        fprintf(stderr, "Usage:\n\t%s <expression>\n", argv[0]);
+        return -1;
+    }
+    
+    return eval(argv[1], strlen(argv[0]));
 }
